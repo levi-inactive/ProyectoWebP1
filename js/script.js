@@ -18,7 +18,7 @@ $(document).ready(function()
                 <td>${cantidad}</td>
                 <td>${precio}</td>
                 <td>${totalTru}</td>
-                <td><input type="button" value="-" id="eliminar" /></td>
+                <td><input id="eliminar" class="btn" type="button" value="-" /></td>
             </tr>
         `);
 
@@ -43,7 +43,7 @@ function formulario()
         <td><input type="number" id="cantidad"></td>
         <td><input type="number" id="precio"></td>
         <td></td>
-        <td><input type="button" value="+" id="agregar" /></td>
+        <td><input id="agregar" class="btn" type="button" value="+" /></td>
     </tr>
     `);
 }

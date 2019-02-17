@@ -1,4 +1,11 @@
+var saleIdRegEx = /[0-9]{2}[A-Z]{3}[0-9]{2}([0-9]|[A-Z]){3}[0-9]{1,2}/;
+
+
 $(document).ready(function(){
+    for (var i = 0; i < 10; i++){
+        console.log(new RandExp(saleIdRegEx).gen());
+    }
+
     insertForm();
 
     $('#add-btn').click(function(){
@@ -41,7 +48,9 @@ $(document).ready(function(){
 
         $('#ticket-table > tbody').append(`
         <tr>
-            <td colspan="2">ID=<span id="sale-id">10MON50MCZ2</span></td>
+            <td colspan="2">ID=<span id="sale-id">${
+                new RandExp(saleIdRegEx).gen()
+            }</span></td>
             <td>IVA INCLUIDO:</td>
             <td><span id="total-iva">2.07</span></td>
         </tr>

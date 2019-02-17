@@ -1,8 +1,8 @@
 $(document).ready(function()
 {
-    formulario();
+    insertForm();
 
-    $('#agregar').click(function()
+    $('#add-btn').click(function()
     {
         codigo = $('#codigo').val();
         nombre = $('#nombre').val();
@@ -18,7 +18,7 @@ $(document).ready(function()
                 <td>${cantidad}</td>
                 <td>${precio}</td>
                 <td>${totalTru}</td>
-                <td><input id="eliminar" class="btn" type="button" value="-" /></td>
+                <td><input id="delete-btn" class="btn" type="button" value="-" /></td>
             </tr>
         `);
 
@@ -27,14 +27,17 @@ $(document).ready(function()
         $('#cantidad').val("");
         $('#precio').val("");
     });
+
+    $('#create-ticket-btn').click(function(){
+        
+    });
 });
 
-$(document).on("click", "#eliminar", function()
-{
+$(document).on("click", "#delete-btn", function(){
     $(this).parent().parent().remove();
 });
 
-function formulario()
+function insertForm()
 {
     $('table tbody').append(`
     <tr id="formulario">
@@ -43,7 +46,7 @@ function formulario()
         <td><input type="number" id="cantidad"></td>
         <td><input type="number" id="precio"></td>
         <td></td>
-        <td><input id="agregar" class="btn" type="button" value="+" /></td>
+        <td><input id="add-btn" class="btn" type="button" value="+" /></td>
     </tr>
     `);
 }

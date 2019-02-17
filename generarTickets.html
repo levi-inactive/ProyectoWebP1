@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <table>
+                <table class="insertion-table">
                     <thead>
                         <tr>
                             <th>Código</th>
@@ -42,7 +42,48 @@
 
         <div class="row">
             <div class="col s10 offset-s1">
-                <div id="ticket-card" class="card-panel hide"></div>
+                <div id="ticket-card" class="card-panel hide">
+                    <!-- Ticket header -->
+                    <div class="center-align">
+                        <p>Cadena Comercial Oxxo S. de C.V.</p>
+                        <p>CCO-860523-1N4</p>
+                        <h3>CINTERMEX MTY</h3>
+                        <p>Edison Nte. Número 1235 Colonia Talleres</p>
+                        <p>Monterrey, Nuevo León C.P. 64480</p>
+                        <p>RÉGIMEN DE CONSOLIDACIÓN FISCAL</p>
+                    </div>
+                    
+                    <!-- Two horizontal lines using the <hr/> 
+                         element and css to stipe them -->
+                    <hr class="striped-border" />
+                    <hr class="striped-border" />
+
+                    <!-- This content is generated in script.js -->
+                    <div id="dynamic-ticket-content">
+                        <table id="ticket-table">
+                            <tbody>
+                                <tr >
+                                    <td>Cajero</td>
+                                    <td>2</td>
+                                    <td><span id="sale-date"></span></td>
+                                    <td><span id="sale-time"></span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Ticket footer -->
+                    <div class="center-align">
+                        <p>PAGO EN UNA SOLA EXHIBICIÓN</p>
+                        <P>LUGAR DE EXPEDICIÓN</P>
+                        <p>FUNDIDORA 501</p>
+                        <p>CENTRO. MONTERREY</p>
+                        <p>NUEVO LEÓN</p>
+                        <p>CP. 64720</p>
+                        <p>e-mail: atencionaclientes@oxxo.com</p>
+                        <p>Tel: 01 800 286 6995</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -19,6 +19,28 @@
     <script src="js/script.js"></script>
 </head>
 <body>
+    <!-- Error Notification Modals -->
+    <div id="input-error-modal" class="modal">
+        <div class="modal-content">
+            <h5>Hmm... parece que no terminaste de insertar todos los datos.</h5>
+            <p>Por favor llena todos los campos antes de agregar un artículo a la lista.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Confirmar</a>
+        </div>
+    </div>
+
+    <div id="ticket-error-modal" class="modal">
+        <div class="modal-content">
+            <h5>Hmm... parece que no hay ningún artículo.</h5>
+            <p>Por favor inserta artículos antes de generar el ticket.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Confirmar</a>
+        </div>
+    </div>
+    <!-- End Error Notifcation Modals -->
+
     <div class="container">
         <div class="row">
             <div class="col s12">
@@ -42,7 +64,7 @@
 
         <div class="row">
             <div class="center-align">
-                <input id="create-ticket-btn" class="btn-large light-blue darken-4" type="button" value="Crear nota" />
+                <button id="create-ticket-btn" class="btn-large white-text light-blue darken-3 waves-light waves-effect">Crear ticket</button>
             </div>
         </div>
 

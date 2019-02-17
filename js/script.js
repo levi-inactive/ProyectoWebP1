@@ -2,36 +2,51 @@
  * Used to generate random sale id's using RandEx
  */
 var saleIdRegEx = /[0-9]{2}[A-Z]{3}[0-9]{2}([0-9]|[A-Z]){3}[0-9]{1,2}/;
+var totalIva = 0;
 
 $(document).ready(function(){
+    $('.modal').modal();
+
     insertForm();
 
     $('#add-btn').click(function(){
-        codigo = $('#codigo').val();
-        nombre = $('#nombre').val();
-        cantidad = $('#cantidad').val();
-        precio = $('#precio').val();
-        total = cantidad*(precio*1.16);
-        totalTru = total.toFixed(2);
+        itemId = $('#item-id-input').val();
+        itemName = $('#item-name-input').val();
+        itemQuantity = $('#item-quantity-input').val();
+        itemPrice = $('#item-price-input').val();;
+
+        iva = itemQuantity*itemPrice*0.16;
+        totalIva += iva;
+        totalCost = (itemQuantity*itemPrice + iva).toFixed(2);
+
+        if (!insertionDataIsValid(itemId, itemName, itemQuantity, itemPrice)) {
+            $('#input-error-modal').modal('open');
+            return;
+        }
 
         $('.insertion-table tbody').prepend(`
         <tr>
-            <td>${codigo}</td>
-            <td>${nombre}</td>
-            <td>${cantidad}</td>
-            <td>${precio}</td>
-            <td>${totalTru}</td>
-            <td><input id="delete-btn" class="btn red darken-2" type="button" value="-" /></td>
+            <td>${itemId}</td>
+            <td>${itemName}</td>
+            <td>${itemQuantity}</td>
+            <td>${itemPrice}</td>
+            <td>${totalCost}</td>
+            <td><button id="delete-btn" class="btn red white-text">-</button></td>
         </tr>
         `);
 
-        $('#codigo').val("");
-        $('#nombre').val("");
-        $('#cantidad').val("");
-        $('#precio').val("");
+        $('#item-id-input').val("");
+        $('#item-name-input').val("");
+        $('#item-quantity-input').val("");
+        $('#item-price-input').val("");
     });
 
     $('#create-ticket-btn').click(function(){
+        if (!appendSaleItems()){
+            $('#ticket-error-modal').modal('open');
+            return;
+        }
+        
         if (!($('#ticket-card').hasClass('hide'))) {
             emptyTicketCardData();
         }
@@ -46,7 +61,6 @@ $(document).ready(function(){
             ${date.getHours()}:${(date.getMinutes() < 10) ? "0"+date.getMinutes() : date.getMinutes()}
         `);
 
-        appendSaleItems();
         appendSaleId();
         appendIva();
 
@@ -66,15 +80,22 @@ function insertForm(){
      * Appends form at the bottom of the insertion table.
      */
     $('.insertion-table > tbody').append(`
-    <tr id="formulario">
-        <td><input type="text" id="codigo"></td>
-        <td><input type="text" id="nombre"></td>
-        <td><input type="number" id="cantidad"></td>
-        <td><input type="number" id="precio"></td>
+    <tr>
+        <td><input type="text" id="item-id-input"></td>
+        <td><input type="text" id="item-name-input"></td>
+        <td><input type="number" id="item-quantity-input"></td>
+        <td><input type="number" id="item-price-input"></td>
         <td></td>
-        <td><input id="add-btn" class="btn light-blue darken-4" type="button" value="+" /></td>
+        <td><button id="add-btn" class="btn white-text light-blue darken-3 waves-light waves-effect">+</button></td>
     </tr>
     `);
+}
+
+function insertionDataIsValid(itemId, itemName, itemQuantity, itemPrice){
+    if (itemId == '' || itemName == '' || itemQuantity == '' || itemPrice == '')
+        return false;
+
+    return true;
 }
 
 function emptyTicketCardData(){
@@ -93,10 +114,12 @@ function emptyTicketCardData(){
 
 function appendSaleItems(){
     // TODO: Get items from item table.
-    
+    return false;    
+
     $('#ticket-table > tbody').append(`
     <tr>
-        <td colspan="3">CHOC ANDATTI MED MON</td>
+        <td colspan="2">CHOC ANDATTI MED MON</td>
+        <td>1</td>
         <td>15.00</td>
     </tr>
     `)
@@ -120,5 +143,5 @@ function appendSaleId(){
 
 function appendIva(){
     // TODO: accumulate IVAs and count them here.
-    $('#total-iva').append(`$${3.00}`);
+    $('#total-iva').append(`$${totalIva.toFixed(2)}`);
 }

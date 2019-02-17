@@ -1,11 +1,9 @@
+/**
+ * Used to generate random sale id's using RandEx
+ */
 var saleIdRegEx = /[0-9]{2}[A-Z]{3}[0-9]{2}([0-9]|[A-Z]){3}[0-9]{1,2}/;
 
-
 $(document).ready(function(){
-    for (var i = 0; i < 10; i++){
-        console.log(new RandExp(saleIdRegEx).gen());
-    }
-
     insertForm();
 
     $('#add-btn').click(function(){
@@ -34,6 +32,10 @@ $(document).ready(function(){
     });
 
     $('#create-ticket-btn').click(function(){
+        if (!($('#ticket-card').hasClass('hide'))) {
+            emptyTicketCardData();
+        }
+
         var date = new Date();
         
         $('#sale-date').append(`
@@ -41,31 +43,29 @@ $(document).ready(function(){
         `);
 
         $('#sale-time').append(` 
-            ${date.getHours()}:${date.getMinutes()}
+            ${date.getHours()}:${(date.getMinutes() < 10) ? "0"+date.getMinutes() : date.getMinutes()}
         `);
 
-        appendItems();
-
-        $('#ticket-table > tbody').append(`
-        <tr>
-            <td colspan="2">ID=<span id="sale-id">${
-                new RandExp(saleIdRegEx).gen()
-            }</span></td>
-            <td>IVA INCLUIDO:</td>
-            <td><span id="total-iva">2.07</span></td>
-        </tr>
-        `)
+        appendSaleItems();
+        appendSaleId();
+        appendIva();
 
         $('#ticket-card').removeClass('hide');
     });
 });
 
 $(document).on("click", "#delete-btn", function(){
+    /**
+     * Deletes a row from the insertion table.
+     */
     $(this).parent().parent().remove();
 });
 
 function insertForm(){
-    $('.insertion-table tbody').append(`
+    /**
+     * Appends form at the bottom of the insertion table.
+     */
+    $('.insertion-table > tbody').append(`
     <tr id="formulario">
         <td><input type="text" id="codigo"></td>
         <td><input type="text" id="nombre"></td>
@@ -77,11 +77,48 @@ function insertForm(){
     `);
 }
 
-function appendItems(){
+function emptyTicketCardData(){
+    $('sale-date').empty();
+    $('#sale-time').empty();
+    $('#ticket-table > tbody').empty();
+    $('#ticket-table > tbody').append(`
+    <tr >
+        <td>Cajero</td>
+        <td>2</td>
+        <td><span id="sale-date"></span></td>
+        <td><span id="sale-time"></span></td>
+    </tr>
+    `);
+}
+
+function appendSaleItems(){
+    // TODO: Get items from item table.
+    
     $('#ticket-table > tbody').append(`
     <tr>
         <td colspan="3">CHOC ANDATTI MED MON</td>
         <td>15.00</td>
     </tr>
     `)
+}
+
+function appendSaleId(){
+    /**
+     * Appends a random string generated 
+     * from saleIdRegEx regular expression.
+     */
+    $('#ticket-table > tbody').append(`
+    <tr>
+        <td colspan="2">ID=<span id="sale-id">${
+            new RandExp(saleIdRegEx).gen()
+        }</span></td>
+        <td>IVA INCLUIDO:</td>
+        <td><span id="total-iva"></span></td>
+    </tr>
+    `)
+}
+
+function appendIva(){
+    // TODO: accumulate IVAs and count them here.
+    $('#total-iva').append(`$${3.00}`);
 }

@@ -18,7 +18,7 @@ $(document).ready(function()
                 <td>${cantidad}</td>
                 <td>${precio}</td>
                 <td>${totalTru}</td>
-                <td><input id="delete-btn" class="btn" type="button" value="-" /></td>
+                <td><input id="delete-btn" class="btn red darken-2" type="button" value="-" /></td>
             </tr>
         `);
 
@@ -46,7 +46,7 @@ function insertForm()
         <td><input type="number" id="cantidad"></td>
         <td><input type="number" id="precio"></td>
         <td></td>
-        <td><input id="add-btn" class="btn" type="button" value="+" /></td>
+        <td><input id="add-btn" class="btn light-blue darken-4" type="button" value="+" /></td>
     </tr>
     `);
 }

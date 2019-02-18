@@ -3,6 +3,7 @@
  */
 var saleIdRegEx = /[0-9]{2}[A-Z]{3}[0-9]{2}([0-9]|[A-Z]){3}[0-9]{1,2}/;
 var totalIva = 0;
+var itemList = [];
 
 $(document).ready(function(){
     $('.modal').modal();
@@ -24,7 +25,7 @@ $(document).ready(function(){
             return;
         }
 
-        $('.insertion-table tbody').prepend(`
+        $('.insertion-table > tbody').prepend(`
         <tr>
             <td>${itemId}</td>
             <td>${itemName}</td>
@@ -48,7 +49,7 @@ $(document).ready(function(){
         }
         
         if (!($('#ticket-card').hasClass('hide'))) {
-            emptyTicketCardData();
+            emptyTicketData();
         }
 
         var date = new Date();
@@ -79,7 +80,7 @@ function insertForm(){
     /**
      * Appends form at the bottom of the insertion table.
      */
-    $('.insertion-table > tbody').append(`
+    $('.insertion-table > tfoot').append(`
     <tr>
         <td><input type="text" id="item-id-input"></td>
         <td><input type="text" id="item-name-input"></td>
@@ -98,12 +99,13 @@ function insertionDataIsValid(itemId, itemName, itemQuantity, itemPrice){
     return true;
 }
 
-function emptyTicketCardData(){
-    $('sale-date').empty();
+function emptyTicketData(){
+    itemList = [];
+    $('#sale-date').empty();
     $('#sale-time').empty();
     $('#ticket-table > tbody').empty();
     $('#ticket-table > tbody').append(`
-    <tr >
+    <tr>
         <td>Cajero</td>
         <td>2</td>
         <td><span id="sale-date"></span></td>
@@ -113,16 +115,37 @@ function emptyTicketCardData(){
 }
 
 function appendSaleItems(){
-    // TODO: Get items from item table.
-    return false;    
+    $('.insertion-table > tbody').find('tr').each(function (i, el) {
+        var tableDataElements = $(this).find('td'),
+            itemName = tableDataElements.eq(1).text(),
+            itemQuantity = tableDataElements.eq(2).text(),
+            itemCost = tableDataElements.eq(4).text();
 
-    $('#ticket-table > tbody').append(`
-    <tr>
-        <td colspan="2">CHOC ANDATTI MED MON</td>
-        <td>1</td>
-        <td>15.00</td>
-    </tr>
-    `)
+        itemList.push({
+            name: itemName, 
+            quantity: itemQuantity, 
+            cost: itemCost
+        });
+    });
+    if (itemList.length == 0) {
+        return false;
+    }
+
+    console.log({itemList});
+
+    for (var i in itemList) {
+        console.log("Printing item " + itemList[i].name);
+
+        $('#ticket-table > tbody').append(`
+        <tr>
+            <td>${itemList[i].quantity}</td>
+            <td colspan="2">${itemList[i].name}</td>
+            <td>${itemList[i].cost}x</td>
+        </tr>
+        `)
+    }
+
+    return true;
 }
 
 function appendSaleId(){
@@ -142,6 +165,8 @@ function appendSaleId(){
 }
 
 function appendIva(){
-    // TODO: accumulate IVAs and count them here.
+    /**
+     * Displays to total IVAs sumemed from each item.
+     */
     $('#total-iva').append(`$${totalIva.toFixed(2)}`);
 }

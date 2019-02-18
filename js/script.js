@@ -3,7 +3,6 @@
  */
 var saleIdRegEx = /[0-9]{2}[A-Z]{3}[0-9]{2}([0-9]|[A-Z]){3}[0-9]{1,2}/;
 var totalIva = 0;
-var itemList = [];
 
 $(document).ready(function(){
     $('.modal').modal();
@@ -43,13 +42,14 @@ $(document).ready(function(){
     });
 
     $('#create-ticket-btn').click(function(){
-        if (!appendSaleItems()){
-            $('#ticket-error-modal').modal('open');
-            return;
-        }
-        
         if (!($('#ticket-card').hasClass('hide'))) {
             emptyTicketData();
+        }
+
+        if (!appendSaleItems()){
+            $('#ticket-card').addClass('hide');
+            $('#ticket-error-modal').modal('open');
+            return;
         }
 
         var date = new Date();
@@ -100,7 +100,6 @@ function insertionDataIsValid(itemId, itemName, itemQuantity, itemPrice){
 }
 
 function emptyTicketData(){
-    itemList = [];
     $('#sale-date').empty();
     $('#sale-time').empty();
     $('#ticket-table > tbody').empty();
@@ -115,6 +114,8 @@ function emptyTicketData(){
 }
 
 function appendSaleItems(){
+    var itemList = [];
+
     $('.insertion-table > tbody').find('tr').each(function (i, el) {
         var tableDataElements = $(this).find('td'),
             itemName = tableDataElements.eq(1).text(),
@@ -131,16 +132,15 @@ function appendSaleItems(){
         return false;
     }
 
+    console.log('Appending sale items:');
     console.log({itemList});
 
     for (var i in itemList) {
-        console.log("Printing item " + itemList[i].name);
-
         $('#ticket-table > tbody').append(`
         <tr>
             <td>${itemList[i].quantity}</td>
             <td colspan="2">${itemList[i].name}</td>
-            <td>${itemList[i].cost}x</td>
+            <td>$${itemList[i].cost}</td>
         </tr>
         `)
     }

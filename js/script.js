@@ -132,9 +132,6 @@ function appendSaleItems(){
         return false;
     }
 
-    console.log('Appending sale items:');
-    console.log({itemList});
-
     for (var i in itemList) {
         $('#ticket-table > tbody').append(`
         <tr>
